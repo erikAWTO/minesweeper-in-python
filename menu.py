@@ -1,107 +1,65 @@
-import tkinter as tk
-import random
+from tkinter import *
+from tkinter.font import Font
 
-class Minesweeper:
-    def __init__(self, master, rows, cols, mines):
-        self.master = master
-        self.rows = rows
-        self.cols = cols
-        self.mines = mines
-        self.board = [[0 for _ in range(cols)] for _ in range(rows)]
-        self.buttons = [[None for _ in range(cols)] for _ in range(rows)]
-        self.game_over = False
-        self.create_widgets()
 
-    def create_widgets(self):
-        self.frame = tk.Frame(self.master)
-        self.frame.pack()
+def start_game():
+    # Retrieve values from the input fields
+    rows = int(rows_spinbox.get())
+    cols = int(cols_spinbox.get())
+    mines = int(mines_spinbox.get())
 
-        self.reset_button = tk.Button(self.frame, text="Reset", command=self.reset)
-        self.reset_button.pack()
+    # Here, you can start the Minesweeper game with the chosen parameters
+    # For demonstration purposes, print the selected values
+    print(f"Starting Minesweeper with {rows} rows, {cols} columns, and {mines} mines.")
 
-        self.mine_label = tk.Label(self.frame, text="Mines: {}".format(self.mines))
-        self.mine_label.pack()
 
-        self.grid_frame = tk.Frame(self.frame)
-        self.grid_frame.pack()
+def show_high_scores():
+    # Display high scores or implement the functionality to show high scoresArialenty
+    # For now, just print a message
+    print("Showing High Scores")
 
-        for row in range(self.rows):
-            for col in range(self.cols):
-                button = tk.Button(self.grid_frame, width=2, height=1, command=lambda row=row, col=col: self.click(row, col))
-                button.grid(row=row, column=col)
-                self.buttons[row][col] = button
 
-    def reset(self):
-        self.game_over = False
-        self.board = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
-        self.place_mines()
-        self.update_buttons()
+# Create the main window
+root = Tk()
+root.title("Minröj")
+root.geometry("300x300")
 
-    def place_mines(self):
-        mines = 0
-        while mines < self.mines:
-            row = random.randint(0, self.rows-1)
-            col = random.randint(0, self.cols-1)
-            if self.board[row][col] != -1:
-                self.board[row][col] = -1
-                mines += 1
+# Set the default value for SpinBoxes
+row_value = StringVar(root)
+row_value.set("8")
+column_value = StringVar(root)
+column_value.set("8")
+mine_value = StringVar(root)
+mine_value.set("10")
 
-        for row in range(self.rows):
-            for col in range(self.cols):
-                if self.board[row][col] != -1:
-                    count = 0
-                    for r in range(row-1, row+2):
-                        for c in range(col-1, col+2):
-                            if r >= 0 and r < self.rows and c >= 0 and c < self.cols and self.board[r][c] == -1:
-                                count += 1
-                    self.board[row][col] = count
+# Create labels and spinboxes for grid size and mines
+title_label = Label(root, text="MINRÖJ", font=("Arial", 28))
+title_label.pack()
 
-    def update_buttons(self):
-        for row in range(self.rows):
-            for col in range(self.cols):
-                if self.board[row][col] == -1:
-                    self.buttons[row][col].config(text="*", state="disabled")
-                elif self.board[row][col] == 0:
-                    self.buttons[row][col].config(text="", state="normal")
-                else:
-                    self.buttons[row][col].config(text=str(self.board[row][col]), state="disabled")
+rows_label = Label(root, text="Rader:")
+rows_label.pack()
+rows_spinbox = Spinbox(root, font=("Arial", 14), from_=2, to=12, textvariable=row_value)
+rows_spinbox.pack()
 
-    def click(self, row, col):
-        if self.game_over:
-            return
+cols_label = Label(root, text="Kolumner:")
+cols_label.pack()
+cols_spinbox = Spinbox(
+    root, font=("Arial", 14), from_=2, to=12, textvariable=column_value
+)
+cols_spinbox.pack()
 
-        if self.board[row][col] == -1:
-            self.buttons[row][col].config(text="*", state="disabled")
-            self.game_over = True
-            tk.messagebox.showinfo("Game Over", "You lose!")
-        elif self.board[row][col] == 0:
-            self.clear_zeros(row, col)
-        else:
-            self.buttons[row][col].config(text=str(self.board[row][col]), state="disabled")
+mines_label = Label(root, text="Minor:")
+mines_label.pack()
+mines_spinbox = Spinbox(root, font=("Arial", 14), from_=2, to=12, textvariable=mine_value)
+mines_spinbox.pack(pady=(0, 10))
 
-        if self.check_win():
-            self.game_over = True
-            tk.Message.bbox.showinfo("Game Over", "You win!")
+# Create buttons for starting the game and showing high scores
+start_button = Button(root, width=20, text="Start Game", command=start_game)
+start_button.pack(pady=(0, 10))
 
-    def clear_zeros(self, row, col):
-        if self.board[row][col] != 0 or self.buttons[row][col]["state"] == "disabled":
-            return
+high_scores_button = Button(
+    root, width=20, text="Show High Scores", command=show_high_scores
+)
+high_scores_button.pack()
 
-        self.buttons[row][col].config(text="", state="disabled")
-
-        for r in range(row-1, row+2):
-            for c in range(col-1, col+2):
-                if r >= 0 and r < self.rows and c >= 0 and c < self.cols:
-                    self.clear_zeros(r, c)
-
-    def check_win(self):
-        for row in range(self.rows):
-            for col in range(self.cols):
-                if self.board[row][col] != -1 and self.buttons[row][col]["state"] != "disabled":
-                    return False
-        return True
-
-root = tk.Tk()
-root.title("Minesweeper")
-game = Minesweeper(root, 10, 10, 10)
 root.mainloop()
