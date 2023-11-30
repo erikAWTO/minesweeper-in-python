@@ -1,0 +1,10 @@
+Name1, 8x8, 120
+Name2, 12x12, 180
+Name3, 16x16, 240
+Name4, 8x8, 90
+Name5, 12x12, 150
+Name6, 16x16, 210
+Name7, 8x8, 75
+Name8, 12x12, 135
+Name9, 16x16, 195
+Name10, 8x8, 60
