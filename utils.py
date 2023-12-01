@@ -6,7 +6,7 @@ MIN_COLUMNS = 2
 MIN_MINES = 2
 MAX_ROWS = 12
 MAX_COLUMNS = 12
-MAX_MINES = 20
+MAX_MINES = 64
 
 # Define variables for the default values of the input fields
 DEFAULT_ROWS = 8

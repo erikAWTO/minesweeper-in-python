@@ -42,7 +42,7 @@ def show_highscores():
     top.title("High Scores")
     
     for i, score in enumerate(sorted_scores, start=1):
-        label = tk.Label(top, text=f"{i}. Name: {score.name}, Grid Size: {score.size[0]}x{score.size[1]}, Time: {score.time}")
+        label = tk.Label(top, text=f"{i}. Player: {score.name}, Size: {score.size[0]}x{score.size[1]}, Time: {score.time}")
         label.pack()
 
 root = tk.Tk()
