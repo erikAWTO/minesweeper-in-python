@@ -1,5 +1,7 @@
-import utils
-from tkinter import *
+""" This module contains the Square class. """
+from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
+
+import utils  # Local module
 
 
 class Square:

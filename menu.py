@@ -126,6 +126,4 @@ high_scores_button = Button(
 )
 high_scores_button.pack()
 
-start_new
-
 root.mainloop()
