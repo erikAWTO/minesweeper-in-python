@@ -1,69 +1,145 @@
-import random
+import utils
 from tkinter import *
 
 
 class Square:
+    """
+    Represents a square in the Minesweeper board.
+
+    Attributes:
+        row (int): The row index of the square.
+        col (int): The column index of the square.
+        mine (bool): Indicates if the square contains a mine.
+        flag (bool): Indicates if the square has been flagged.
+        revealed (bool): Indicates if the square has been revealed.
+        adjacent_mines (int): The number of adjacent squares containing mines.
+        btn_object (Button): The button object associated with the square.
+
+    Methods:
+        create_btn_object(parent): Creates a button object for the square.
+        left_click_handler(event): Handles left-click event on the square.
+        right_click_handler(event): Handles right-click event on the square.
+        reveal_mine(): Reveals the mine in the square.
+        reveal_square(): Reveals the square.
+    """
+
     def __init__(
         self, row=0, col=0, mine=False, flag=False, revealed=False, adjacent_mines=0
     ):
-        self.__row = row
-        self.__col = col
-        self.__mine = mine
-        self.__flag = flag
-        self.__revealed = revealed
-        self.__adjacent_mines = adjacent_mines
+        """
+        Initialize a Square object.
+
+        Args:
+            row (int): The row index of the square.
+            col (int): The column index of the square.
+            mine (bool): Whether the square contains a mine.
+            flag (bool): Whether the square is flagged.
+            revealed (bool): Whether the square is revealed.
+            adjacent_mines (int): The number of adjacent mines.
+
+        Returns:
+            None
+        """
+        self.row = row
+        self.col = col
+        self.mine = mine
+        self.flag = flag
+        self.revealed = revealed
+        self.adjacent_mines = adjacent_mines
         self.btn_object = None
 
     def create_btn_object(self, parent):
-        btn = Button(parent, width=6, height=2, borderwidth=1, fg="#007acc", bg="#252526")
-        btn.bind("<Button-1>", self.btn_left_click)
-        btn.bind("<Button-3>", self.btn_right_click)
+        """
+        Create a button object with specified properties and bind left and right click handlers.
+
+        Args:
+            parent: The parent widget to which the button object will be added.
+
+        Returns:
+            None
+        """
+        btn = Button(
+            parent,
+            width=3,
+            height=1,
+            borderwidth=1,
+            fg="white",
+            bg=utils.GREY2,
+            font="Helvetica 12 bold",
+        )
+        btn.bind("<Button-1>", self.left_click_handler)
+        btn.bind("<Button-3>", self.right_click_handler)
         self.btn_object = btn
 
-    def btn_left_click(self, event):
-        if self.is_mine():
+    def left_click_handler(self, event):
+        """
+        Handles left-click event on the square.
+
+        If the square contains a mine, it reveals the mine.
+        Otherwise, it reveals the square.
+
+        Args:
+            event: The event object triggered by the left-click.
+
+        Returns:
+            None
+        """
+
+        if self.mine == True:
             self.reveal_mine()
         else:
             self.reveal_square()
 
-    def btn_right_click(self, event):
-        print(event)
-        print("Right click")
-        self.set_flag()
-        self.btn_object["text"] = "P"
+    def right_click_handler(self, event):
+        """
+        Handles right-click event on the square.
+
+        Flags the square with a 'P' character on the button.
+
+        Args:
+            event: The event object triggered by the right-click.
+
+        Returns:
+            None
+        """
+        if not self.revealed:
+            if self.flag == True:
+                self.flag = False
+                self.btn_object["bg"] = utils.GREY2
+            elif self.flag == False:
+                self.flag = True
+                self.btn_object["bg"] = "yellow"
 
     def reveal_mine(self):
+        """
+        Reveals the mine in the square.
+
+        Changes the button background color to red to indicate a revealed mine.
+
+        Returns:
+            None
+        """
+        self.btn_object.unbind("<Button-1>")
+        self.btn_object.unbind("<Button-3>")
+
+        self.revealed = True
         self.btn_object["bg"] = "red"
 
     def reveal_square(self):
-        self.btn_object["bg"] = "#3e3e42"
+        """
+        Reveals the square.
 
-    def set_mine(self, mine=True):
-        self.__mine = True
+        Changes the button background color and text to show the revealed square.
 
-    def set_flag(self):
-        self.__flag = True
+        If the square has adjacent mines, it displays the number of adjacent mines.
 
-    def set_revealed(self):
-        self.__revealed = True
+        Returns:
+            None
+        """
+        self.btn_object.unbind("<Button-1>")
+        self.btn_object.unbind("<Button-3>")
 
-    def set_adjacent_mines(self, adjacent_mines):
-        self.__adjacent_mines = adjacent_mines
-
-    def is_mine(self):
-        return self.__mine
-
-    def is_flag(self):
-        return self.__flag
-
-    def is_revealed(self):
-        return self.__revealed
-
-    def get_adjacent_mines(self):
-        return self.__adjacent_mines
-
-    def reset(self):
-        self.__mine = False
-        self.__flag = False
-        self.__revealed = False
-        self.__adjacent_mines = 0
+        self.revealed = True
+        self.btn_object["bg"] = utils.GREY0
+        if not self.adjacent_mines == 0:
+            self.btn_object["text"] = self.adjacent_mines

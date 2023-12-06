@@ -1,5 +1,4 @@
 from tkinter import *
-from game import open_game_window
 
 # Define constants for the minimum and maximum values for the grid size and number of mines
 MIN_ROWS = 2
@@ -30,7 +29,7 @@ def start_game():
     # For demonstration purposes, print the selected values
     print(f"Starting Minesweeper with {rows} rows, {cols} columns, and {mines} mines.")
     root.destroy()
-    open_game_window()
+    # open_game_window()
 
 
 def show_high_scores():
@@ -126,5 +125,7 @@ high_scores_button = Button(
     root, width=20, text="Show High Scores", command=show_high_scores
 )
 high_scores_button.pack()
+
+start_new
 
 root.mainloop()
