@@ -6,7 +6,7 @@ MIN_COLUMNS = 2
 MIN_MINES = 2
 MAX_ROWS = 12
 MAX_COLUMNS = 12
-MAX_MINES = 64
+MAX_MINES = 12
 
 DEFAULT_ROWS = 8
 DEFAULT_COLUMNS = 8
@@ -23,12 +23,12 @@ def validate_integer_input(action, value_if_allowed):
     """
     Validates if the input value is an integer.
 
-    Parameters:
-    - action (str): The action being performed. Only "1" is considered for validation.
-    - value_if_allowed (str): The value being inserted.
+    Args:
+        action (str): The action being performed. Only "1" is considered for validation.
+        value_if_allowed (str): The value being inserted.
 
     Returns:
-    - bool: True if the value is a valid integer, False otherwise.
+        bool: True if the value is a valid integer, False otherwise.
     """
     if action == "1":  # action = 1, text is being inserted
         try:

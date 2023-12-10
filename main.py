@@ -1,8 +1,7 @@
-"""The main file for the game. This file is responsible for creating the game window and starting the game."""
 from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
 
 import utils  # Local module
-from game import Game  # Local module
+from board import Board  # Local module
 
 
 def start_new_game():
@@ -12,7 +11,7 @@ def start_new_game():
     Returns:
          None
     """
-    game = Game(game_frame, 12, 12, 48)
+    game = Board(game_frame, 12, 12, 10)
 
 
 root = Tk()

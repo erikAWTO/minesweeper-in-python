@@ -1,30 +1,9 @@
-""" This module contains the Square class. """
 from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
 
 import utils  # Local module
 
 
 class Square:
-    """
-    Represents a square in the Minesweeper board.
-
-    Attributes:
-        row (int): The row index of the square.
-        col (int): The column index of the square.
-        mine (bool): Indicates if the square contains a mine.
-        flag (bool): Indicates if the square has been flagged.
-        revealed (bool): Indicates if the square has been revealed.
-        adjacent_mines (int): The number of adjacent squares containing mines.
-        btn_object (Button): The button object associated with the square.
-
-    Methods:
-        create_btn_object(parent): Creates a button object for the square.
-        left_click_handler(event): Handles left-click event on the square.
-        right_click_handler(event): Handles right-click event on the square.
-        reveal_mine(): Reveals the mine in the square.
-        reveal_square(): Reveals the square.
-    """
-
     def __init__(
         self, row=0, col=0, mine=False, flag=False, revealed=False, adjacent_mines=0
     ):
@@ -69,79 +48,47 @@ class Square:
             bg=utils.GREY2,
             font="Helvetica 12 bold",
         )
-        btn.bind("<Button-1>", self.left_click_handler)
-        btn.bind("<Button-3>", self.right_click_handler)
         self.btn_object = btn
-
-    def left_click_handler(self, event):
-        """
-        Handles left-click event on the square.
-
-        If the square contains a mine, it reveals the mine.
-        Otherwise, it reveals the square.
-
-        Args:
-            event: The event object triggered by the left-click.
-
-        Returns:
-            None
-        """
-
-        if self.mine == True:
-            self.reveal_mine()
-        else:
-            self.reveal_square()
-
-    def right_click_handler(self, event):
-        """
-        Handles right-click event on the square.
-
-        Flags the square with a 'P' character on the button.
-
-        Args:
-            event: The event object triggered by the right-click.
-
-        Returns:
-            None
-        """
-        if not self.revealed:
-            if self.flag == True:
-                self.flag = False
-                self.btn_object["bg"] = utils.GREY2
-            elif self.flag == False:
-                self.flag = True
-                self.btn_object["bg"] = "yellow"
 
     def reveal_mine(self):
         """
         Reveals the mine in the square.
 
-        Changes the button background color to red to indicate a revealed mine.
-
         Returns:
             None
         """
-        self.btn_object.unbind("<Button-1>")
-        self.btn_object.unbind("<Button-3>")
-
         self.revealed = True
         self.btn_object["bg"] = "red"
+        self.btn_object.unbind("<Button-1>")
+        self.btn_object.unbind("<Button-3>")
 
     def reveal_square(self):
         """
         Reveals the square.
 
-        Changes the button background color and text to show the revealed square.
+        Returns:
+            None
+        """
+        self.revealed = True
+        self.btn_object["bg"] = utils.GREY1
 
-        If the square has adjacent mines, it displays the number of adjacent mines.
+        if self.adjacent_mines > 0:
+            self.btn_object["text"] = self.adjacent_mines
+
+        self.btn_object.unbind("<Button-1>")
+        self.btn_object.unbind("<Button-3>")
+
+    def toggle_flag(self):
+        """
+        Toggles the flag on the square.
 
         Returns:
             None
         """
-        self.btn_object.unbind("<Button-1>")
-        self.btn_object.unbind("<Button-3>")
-
-        self.revealed = True
-        self.btn_object["bg"] = utils.GREY0
-        if not self.adjacent_mines == 0:
-            self.btn_object["text"] = self.adjacent_mines
+        if not self.revealed:
+            if self.flag:
+                self.flag = False
+                self.btn_object["bg"] = utils.GREY2
+            elif not self.flag:
+                self.flag = True
+                self.btn_object["bg"] = "yellow"
