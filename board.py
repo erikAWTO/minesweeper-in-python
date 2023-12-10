@@ -1,6 +1,9 @@
 import random  # Python Standard Library: https://docs.python.org/3/library/random.html
 
 from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
+from tkinter import (
+    messagebox,
+)  # 3rd party: https://docs.python.org/3/library/tkinter.html
 
 from square import Square  # Local module
 
@@ -28,7 +31,6 @@ class Board:
         right_click_handler(self, event): Handles the right-click event on a square button.
         left_click_handler(self, event): Handles the left-click event on a square button.
         reveal_mines(self): Reveals all the mines on the game board.
-        reveal_square(self): Reveals a specific square on the game board.
         game_over(self): Handles the game over condition.
         game_won(self): Handles the game won condition.
         first_move(self, row, col): Handles the first move of the game.
@@ -36,7 +38,6 @@ class Board:
         count_adjacent_mines(self, row, col): Calculates the number of adjacent mines to a given cell.
         set_adjacent_mines(self): Sets the number of adjacent mines for each square on the game board.
         flood_fill(self, row, col): Performs flood fill algorithm to reveal adjacent squares with no adjacent mines.
-        test_flood(self, row, col): Performs a test flood fill algorithm to reveal adjacent squares with no adjacent mines.
 
     Returns:
         None
@@ -168,8 +169,10 @@ class Board:
 
         if square.mine:
             self.reveal_mines()
+            self.game_over()
         else:
             self.flood_fill(row, col)
+            self.check_game_won()
 
     def reveal_mines(self):
         """
@@ -273,7 +276,19 @@ class Board:
                             self.flood_fill(adjacent_row, adjacent_col)
 
     def game_over(self):
-        pass
+        for all in self.grid:
+            for square in all:
+                square.btn_object.unbind("<Button-1>")
+                square.btn_object.unbind("<Button-3>")
+        messagebox.showinfo("Game over", "Game over")
 
-    def game_won(self):
-        pass
+    def check_game_won(self):
+        total_revealed = 0
+        for all in self.grid:
+            for square in all:
+                if square.revealed:
+                    total_revealed += 1
+        if total_revealed == self.rows * self.cols - self.mines:
+            square.btn_object.unbind("<Button-1>")
+            square.btn_object.unbind("<Button-3>")
+            messagebox.showinfo("Game Won", "Game Won")
