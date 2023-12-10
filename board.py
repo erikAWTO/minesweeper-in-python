@@ -260,6 +260,16 @@ class Board:
                     self.grid[i][j].adjacent_mines = self.count_adjacent_mines(i, j)
 
     def flood_fill(self, row, col):
+        """
+        Recursively reveals adjacent squares until reaching squares with adjacent mines.
+
+        Args:
+            row (int): The row index of the square to start the flood fill from.
+            col (int): The column index of the square to start the flood fill from.
+
+        Returns:
+            None
+        """
         for row_offset in range(-1, 2):
             for col_offset in range(-1, 2):
                 adjacent_row = row + row_offset
@@ -276,6 +286,14 @@ class Board:
                             self.flood_fill(adjacent_row, adjacent_col)
 
     def game_over(self):
+        """
+        Unbinds the left and right mouse button events for all squares in the grid and displays a game over message box.
+        Args:
+            None
+
+        Returns:
+            None
+        """
         for all in self.grid:
             for square in all:
                 square.btn_object.unbind("<Button-1>")
@@ -283,6 +301,17 @@ class Board:
         messagebox.showinfo("Game over", "Game over")
 
     def check_game_won(self):
+        """
+        Checks if the game has been won by counting the number of revealed squares.
+        If the number of revealed squares is equal to the total number of squares minus the number of mines,
+        the game is considered won.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
         total_revealed = 0
         for all in self.grid:
             for square in all:
