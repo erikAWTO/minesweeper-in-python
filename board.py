@@ -58,6 +58,7 @@ class Board:
             rows (int): The number of rows in the board.
             cols (int): The number of columns in the board.
             mines (int): The number of mines in the board.
+            flags (int): The number of flags placed on the board.
             grid (list): A 2D list representing the board grid.
             first_click (bool): Flag to indicate if the first click has been made.
             first_click_adjacents (list): List of adjacent squares to the first click.
@@ -69,6 +70,9 @@ class Board:
         self.rows = rows
         self.cols = cols
         self.mines = mines
+        self.flags = 0
+        self.game_over = False
+        self.game_won = False
         self.grid = [[Square() for _ in range(cols)] for _ in range(rows)]
 
         self.first_click = True
@@ -143,6 +147,10 @@ class Board:
 
         square = self.grid[row][col]
         square.toggle_flag()
+        if square.flag:
+            self.flags += 1
+        else:
+            self.flags -= 1
 
     def left_click_handler(self, event):
         """
@@ -169,7 +177,7 @@ class Board:
 
         if square.mine:
             self.reveal_mines()
-            self.game_over()
+            self.display_game_over()
         else:
             self.flood_fill(row, col)
             self.check_game_won()
@@ -285,7 +293,7 @@ class Board:
                         if self.grid[adjacent_row][adjacent_col].adjacent_mines == 0:
                             self.flood_fill(adjacent_row, adjacent_col)
 
-    def game_over(self):
+    def display_game_over(self):
         """
         Unbinds the left and right mouse button events for all squares in the grid and displays a game over message box.
         Args:

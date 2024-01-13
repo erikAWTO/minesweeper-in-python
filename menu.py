@@ -98,6 +98,7 @@ cols_spinbox = Spinbox(
     font=("Arial", 14),
     from_=MIN_COLUMNS,
     to=MAX_COLUMNS,
+    width=5,
     textvariable=DEFAULT_COLUMNS,
     validate="key",
     validatecommand=(integer_validation, "%d", "%P"),
