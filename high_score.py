@@ -44,6 +44,8 @@ def read_high_scores_from_file(file_name):
                     high_scores.append(
                         HighScore(name, (rows, cols), int(mines), int(time))
                     )
+                else:
+                    print(f"Invalid format: {line}")
     except FileNotFoundError:
         print(f"File '{file_name}' not found.")
     return high_scores
