@@ -4,6 +4,7 @@ import time  # Python Standard Library: https://docs.python.org/3/library/time.h
 from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
 from tkinter import messagebox, simpledialog
 
+import utils  # Local module
 from high_score import *  # Local module
 from square import Square  # Local module
 
@@ -73,6 +74,7 @@ class Board:
         self.cols = cols
         self.mines = mines
         self.flags = 0
+        self.start_time = 0
         self.game_over = False
         self.game_won = False
         self.grid = [[Square() for _ in range(cols)] for _ in range(rows)]
@@ -179,6 +181,7 @@ class Board:
             self.start_time = time.time()
 
         if square.mine:
+            self.game_over = True
             self.reveal_mines()
             self.display_game_over()
         else:
@@ -368,3 +371,26 @@ class Board:
                 write_high_scores_to_file(HIGH_SCORE_FILE, existing_high_scores)
 
                 show_high_scores(self.frame)
+
+    @staticmethod
+    def validate_board_size(rows, columns, mines):
+        """
+        Validates the board size.
+
+        Args:
+            rows (int): The number of rows.
+            columns (int): The number of columns.
+            mines (int): The number of mines.
+
+        Returns:
+            bool: True if the board size is valid, False otherwise.
+        """
+        return (
+            utils.MIN_ROWS <= rows <= utils.MAX_ROWS
+            and utils.MIN_COLUMNS <= columns <= utils.MAX_COLUMNS
+            and utils.MIN_MINES <= mines <= utils.MAX_MINES
+            and mines
+            <= round(
+                (rows * columns) / 4
+            )  # Mines can't be more than 1/4 of the total number of squares
+        )

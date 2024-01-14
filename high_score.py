@@ -5,6 +5,18 @@ HIGH_SCORE_FILE = "highscores.txt"
 
 
 class HighScore:
+    """
+    Represents a high score.
+
+    Attributes:
+        name (str): The name of the player.
+        size (tuple): The size of the board.
+        mines (int): The number of mines.
+        time (int): The time it took to complete the game.
+    Returns:
+        None
+    """
+
     def __init__(self, name, size, mines, time):
         self.name = name
         self.size = size
@@ -13,6 +25,14 @@ class HighScore:
 
 
 def read_high_scores_from_file(file_name):
+    """
+    Reads the high scores from the given file.
+    Args:
+        file_name (str): The name of the file.
+
+    Returns:
+        list: List of HighScore objects.
+    """
     highscores = []
     try:
         with open(file_name, "r") as file:
@@ -30,6 +50,14 @@ def read_high_scores_from_file(file_name):
 
 
 def write_high_scores_to_file(file_name, highscores):
+    """
+    Writes the high scores to the given file.
+    Args:
+        file_name (str): The name of the file.
+        highscores (list): List of HighScore objects.
+    Returns:
+        None
+    """
     try:
         with open(file_name, "w") as file:
             for highscore in highscores:
@@ -53,6 +81,13 @@ def sort_high_scores(scores):
 
 
 def show_high_scores(root):
+    """
+    Shows the high scores.
+    Args:
+        root (tk.Tk): The root window.
+    Returns:
+        None
+    """
     sorted_scores = read_high_scores_from_file("highscores.txt")
     sort_high_scores(sorted_scores)
 

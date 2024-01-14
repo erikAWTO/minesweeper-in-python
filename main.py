@@ -26,7 +26,7 @@ def start_new_game():
     rows = int(rows_spinbox.get())
     cols = int(cols_spinbox.get())
     mines = int(mines_spinbox.get())
-    if utils.validate_board_size(rows, cols, mines):
+    if Board.validate_board_size(rows, cols, mines):
         current_game = Board(game_frame, rows, cols, mines)
     else:
         messagebox.showerror(
@@ -60,8 +60,13 @@ def update_time_label():
     Returns:
         None
     """
-    print("geheh")
-    root.update()
+    root.after(1000, update_time_label)
+
+    if current_game is None or current_game.game_over or current_game.first_click:
+        return
+
+    current_time = int(time.time() - current_game.start_time)
+    current_time_label.config(text=str(current_time))
 
 
 root = Tk()
@@ -69,8 +74,7 @@ root.title("Minröj")
 root.geometry(f"{utils.SCREEN_WIDTH}x{utils.SCREEN_HEIGHT}")
 root.resizable(False, False)
 
-integer_validation = root.register(utils.validate_integer_input)
-board_size_validation = root.register(utils.validate_board_size)
+validate_integer = root.register(utils.validate_integer_input)
 
 # Set default values for rows and columns
 DEFAULT_ROWS = StringVar(root, utils.DEFAULT_ROWS)
@@ -86,10 +90,9 @@ top_frame = Frame(
 )
 top_frame.place(x=utils.screen_width_prcnt(15), y=0)
 
-time_label = Label(
+Label(
     top_frame, text="Tid", font=("Helvetica", 14), fg=utils.BLUE, bg=utils.GREY1
-)
-time_label.place(relx=0.5, rely=0.4, anchor="center")
+).place(relx=0.5, rely=0.4, anchor="center")
 
 current_time_label = Label(
     top_frame, text="0", font=("Helvetica", 14), fg=utils.BLUE, bg=utils.GREY1
@@ -122,7 +125,7 @@ rows_spinbox = Spinbox(
     to=utils.MAX_ROWS,
     textvariable=DEFAULT_ROWS,
     validate="key",
-    validatecommand=(integer_validation, "%d", "%P"),
+    validatecommand=(validate_integer, "%d", "%P"),
 )
 rows_spinbox.place(relx=0.5, rely=0.35, anchor="center")
 
@@ -138,7 +141,7 @@ cols_spinbox = Spinbox(
     to=utils.MAX_COLUMNS,
     textvariable=DEFAULT_COLUMNS,
     validate="key",
-    validatecommand=(integer_validation, "%d", "%P"),
+    validatecommand=(validate_integer, "%d", "%P"),
 )
 cols_spinbox.place(relx=0.5, rely=0.50, anchor="center")
 
@@ -154,7 +157,7 @@ mines_spinbox = Spinbox(
     to=utils.MAX_MINES,
     textvariable=DEFAULT_MINES,
     validate="key",
-    validatecommand=(integer_validation, "%d", "%P"),
+    validatecommand=(validate_integer, "%d", "%P"),
 )
 mines_spinbox.place(relx=0.5, rely=0.65, anchor="center")
 
@@ -184,5 +187,5 @@ game_frame = Frame(
 )
 game_frame.place(x=utils.screen_width_prcnt(15), y=utils.screen_height_prcnt(15))
 
-root.mainloop()
 root.after(1000, update_time_label)
+root.mainloop()

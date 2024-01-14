@@ -41,29 +41,6 @@ def validate_integer_input(action, value_if_allowed):
     return True
 
 
-def validate_board_size(rows, columns, mines):
-    """
-    Validates the board size.
-
-    Args:
-        rows (int): The number of rows.
-        columns (int): The number of columns.
-        mines (int): The number of mines.
-
-    Returns:
-        bool: True if the board size is valid, False otherwise.
-    """
-    return (
-        MIN_ROWS <= rows <= MAX_ROWS
-        and MIN_COLUMNS <= columns <= MAX_COLUMNS
-        and MIN_MINES <= mines <= MAX_MINES
-        and mines
-        <= round(
-            (rows * columns) / 4
-        )  # Mines can't be more than 1/4 of the total number of squares
-    )
-
-
 def screen_width_prcnt(percentage):
     """
     Calculates the width of the screen in pixels based on the given percentage.
