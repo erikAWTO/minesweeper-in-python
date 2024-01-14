@@ -124,8 +124,12 @@ rows_spinbox = Spinbox(
     from_=utils.MIN_ROWS,
     to=utils.MAX_ROWS,
     textvariable=DEFAULT_ROWS,
-    validate="key",
-    validatecommand=(validate_integer, "%d", "%P"),
+    validate="key",  # On user input
+    validatecommand=(
+        validate_integer,
+        "%d",
+        "%P",
+    ),  # %d = type of action, %P = value of the entry if the edit is allowed
 )
 rows_spinbox.place(relx=0.5, rely=0.35, anchor="center")
 
@@ -140,8 +144,12 @@ cols_spinbox = Spinbox(
     from_=utils.MIN_COLUMNS,
     to=utils.MAX_COLUMNS,
     textvariable=DEFAULT_COLUMNS,
-    validate="key",
-    validatecommand=(validate_integer, "%d", "%P"),
+    validate="key",  # On user input
+    validatecommand=(
+        validate_integer,
+        "%d",
+        "%P",
+    ),  # %d = type of action, %P = value of the entry if the edit is allowed
 )
 cols_spinbox.place(relx=0.5, rely=0.50, anchor="center")
 
@@ -156,8 +164,12 @@ mines_spinbox = Spinbox(
     from_=utils.MIN_MINES,
     to=utils.MAX_MINES,
     textvariable=DEFAULT_MINES,
-    validate="key",
-    validatecommand=(validate_integer, "%d", "%P"),
+    validate="key",  # On user input
+    validatecommand=(
+        validate_integer,
+        "%d",
+        "%P",
+    ),  # %d = type of action, %P = value of the entry if the edit is allowed
 )
 mines_spinbox.place(relx=0.5, rely=0.65, anchor="center")
 
@@ -187,5 +199,5 @@ game_frame = Frame(
 )
 game_frame.place(x=utils.screen_width_prcnt(15), y=utils.screen_height_prcnt(15))
 
-root.after(1000, update_time_label)
+root.after(1000, update_time_label)  # Update time label every second
 root.mainloop()

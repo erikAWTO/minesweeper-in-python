@@ -33,7 +33,7 @@ def read_high_scores_from_file(file_name):
     Returns:
         list: List of HighScore objects.
     """
-    highscores = []
+    high_scores = []
     try:
         with open(file_name, "r") as file:
             for line in file:
@@ -41,15 +41,15 @@ def read_high_scores_from_file(file_name):
                 if len(data) == 4:
                     name, size, mines, time = data
                     rows, cols = map(int, size.split("x"))
-                    highscores.append(
+                    high_scores.append(
                         HighScore(name, (rows, cols), int(mines), int(time))
                     )
     except FileNotFoundError:
         print(f"File '{file_name}' not found.")
-    return highscores
+    return high_scores
 
 
-def write_high_scores_to_file(file_name, highscores):
+def write_high_scores_to_file(file_name, high_scores):
     """
     Writes the high scores to the given file.
     Args:
@@ -60,10 +60,10 @@ def write_high_scores_to_file(file_name, highscores):
     """
     try:
         with open(file_name, "w") as file:
-            for highscore in highscores:
-                size = f"{highscore.size[0]}x{highscore.size[1]}"
+            for high_score in high_scores:
+                size = f"{high_score.size[0]}x{high_score.size[1]}"
                 file.write(
-                    f"{highscore.name},{size},{highscore.mines},{highscore.time}\n"
+                    f"{high_score.name},{size},{high_score.mines},{high_score.time}\n"
                 )
     except IOError:
         print(f"Error writing to '{file_name}'.")

@@ -21,20 +21,20 @@ GREY3 = "#1e1e1e"
 BLUE = "#007acc"
 
 
-def validate_integer_input(action, value_if_allowed):
+def validate_integer_input(action, input_value):
     """
     Validates if the input value is an integer.
 
     Args:
         action (str): The action being performed. Only "1" is considered for validation.
-        value_if_allowed (str): The value being inserted.
+        input_value (str): The value being inserted.
 
     Returns:
         bool: True if the value is a valid integer, False otherwise.
     """
     if action == "1":  # action = 1, text is being inserted
         try:
-            int(value_if_allowed)
+            int(input_value)
             return True
         except ValueError:
             return False
