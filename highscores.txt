@@ -1,10 +1,6 @@
-Name1, 8x8, 120
-Name2, 12x12, 180
-Name3, 16x16, 240
-Name4, 8x8, 90
-Name5, 12x12, 150
-Name6, 16x16, 210
-Name7, 8x8, 75
-Name8, 12x12, 135
-Name9, 16x16, 195
-Name10, 8x8, 60
+bajs,8x8,11,69
+kuken,8x8,10,23
+öö,8x8,10,34
+erik2,8x8,10,44
+erik,8x8,10,55
+erik1,8x8,9,55

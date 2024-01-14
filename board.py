@@ -1,10 +1,10 @@
 import random  # Python Standard Library: https://docs.python.org/3/library/random.html
+import time  # Python Standard Library: https://docs.python.org/3/library/time.html
 
 from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
-from tkinter import (
-    messagebox,
-)  # 3rd party: https://docs.python.org/3/library/tkinter.html
+from tkinter import messagebox, simpledialog
 
+from high_score import *  # Local module
 from square import Square  # Local module
 
 
@@ -23,6 +23,7 @@ class Board:
         grid (list): A 2D list representing the board grid.
         first_click (bool): Flag to indicate if the first click has been made.
         first_click_adjacents (list): List of adjacent squares to the first click.
+        start_time (float): The time when the game started.
 
     Methods:
         __init__(self, frame, rows, cols, mines): Initializes a Board object.
@@ -37,6 +38,7 @@ class Board:
         in_bounds(self, x, y): Checks if the given coordinates are within the bounds of the game grid.
         count_adjacent_mines(self, row, col): Calculates the number of adjacent mines to a given cell.
         set_adjacent_mines(self): Sets the number of adjacent mines for each square on the game board.
+        unbind_all_btns(self): Unbinds the left and right mouse button events for all squares in the grid.
         flood_fill(self, row, col): Performs flood fill algorithm to reveal adjacent squares with no adjacent mines.
 
     Returns:
@@ -174,6 +176,7 @@ class Board:
             self.first_move(row, col)
             self.place_mines()
             self.set_adjacent_mines()
+            self.start_time = time.time()
 
         if square.mine:
             self.reveal_mines()
@@ -293,6 +296,20 @@ class Board:
                         if self.grid[adjacent_row][adjacent_col].adjacent_mines == 0:
                             self.flood_fill(adjacent_row, adjacent_col)
 
+    def unbind_all_btns(self):
+        """
+        Unbinds the left and right mouse button events for all squares in the grid.
+
+        Args:
+            None
+        Returns:
+            None
+        """
+        for all in self.grid:
+            for square in all:
+                square.btn_object.unbind("<Button-1>")
+                square.btn_object.unbind("<Button-3>")
+
     def display_game_over(self):
         """
         Unbinds the left and right mouse button events for all squares in the grid and displays a game over message box.
@@ -302,10 +319,7 @@ class Board:
         Returns:
             None
         """
-        for all in self.grid:
-            for square in all:
-                square.btn_object.unbind("<Button-1>")
-                square.btn_object.unbind("<Button-3>")
+        self.unbind_all_btns()
         messagebox.showinfo("Game over", "Game over")
 
     def check_game_won(self):
@@ -325,7 +339,32 @@ class Board:
             for square in all:
                 if square.revealed:
                     total_revealed += 1
-        if total_revealed == self.rows * self.cols - self.mines:
-            square.btn_object.unbind("<Button-1>")
-            square.btn_object.unbind("<Button-3>")
-            messagebox.showinfo("Game Won", "Game Won")
+        if total_revealed == self.rows * self.cols - self.mines:  # Game won
+            self.unbind_all_btns()
+            stop_time = time.time()
+            time_elapsed = int(stop_time - self.start_time)
+
+            # Prompt the user for their name
+            player_name = simpledialog.askstring(
+                "Du vann!",
+                "Du vann! Ange ditt namn",
+                parent=self.frame,
+            )
+            if player_name is not None:  # If the user didn't click Cancel
+                # Create a HighScore object
+                high_score = HighScore(
+                    player_name, (self.rows, self.cols), self.mines, time_elapsed
+                )
+
+                # Read existing high scores from file
+                existing_high_scores = read_high_scores_from_file(HIGH_SCORE_FILE)
+
+                # Append the new high score
+                existing_high_scores.append(high_score)
+
+                # Sort high scores and write them back to the file
+                sort_high_scores(existing_high_scores)
+
+                write_high_scores_to_file(HIGH_SCORE_FILE, existing_high_scores)
+
+                show_high_scores(self.frame)

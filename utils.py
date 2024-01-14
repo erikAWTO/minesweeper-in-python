@@ -3,12 +3,12 @@ from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.ht
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 
-MIN_ROWS = 2
-MIN_COLUMNS = 2
+MIN_ROWS = 4
+MIN_COLUMNS = 4
 MIN_MINES = 2
-MAX_ROWS = 12
-MAX_COLUMNS = 12
-MAX_MINES = 12
+MAX_ROWS = 16
+MAX_COLUMNS = 16
+MAX_MINES = 64
 
 DEFAULT_ROWS = 8
 DEFAULT_COLUMNS = 8

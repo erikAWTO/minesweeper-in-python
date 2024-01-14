@@ -1,3 +1,5 @@
+import time  # Built-in module: https://docs.python.org/3/library/time.html
+
 from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
 from tkinter import (
     messagebox,
@@ -6,6 +8,8 @@ from tkinter import (
 import utils  # Local module
 import high_score  # Local module
 from board import Board  # Local module
+
+current_game = None
 
 
 def start_new_game():
@@ -16,28 +20,19 @@ def start_new_game():
     Returns:
         None
     """
+    global current_game
+
     # Retrieve values from Spinboxes
     rows = int(rows_spinbox.get())
     cols = int(cols_spinbox.get())
     mines = int(mines_spinbox.get())
     if utils.validate_board_size(rows, cols, mines):
-        game = Board(game_frame, rows, cols, mines)
+        current_game = Board(game_frame, rows, cols, mines)
     else:
-        invalid_board_size()
-
-
-def invalid_board_size():
-    """
-    Shows a message box if the board size is invalid.
-    Args:
-        None
-    Returns:
-        None
-    """
-    messagebox.showerror(
-        "Invalid board size",
-        f"Min rader/kolumner - {utils.MIN_ROWS}x{utils.MIN_COLUMNS} \nMax rader/kolumner - {utils.MAX_ROWS}x{utils.MAX_COLUMNS}\nMin minor - {utils.MIN_MINES} \nMax minor - 1/4 av totala rutor",
-    )
+        messagebox.showerror(
+            "Invalid board size",
+            f"Min rader/kolumner - {utils.MIN_ROWS}x{utils.MIN_COLUMNS} \nMax rader/kolumner - {utils.MAX_ROWS}x{utils.MAX_COLUMNS}\nMin minor - {utils.MIN_MINES} \nMax minor - 1/4 av totala rutor",
+        )
 
 
 def show_info():
@@ -48,13 +43,25 @@ def show_info():
     Returns:
         None
     """
-    info_frame = Toplevel(left_frame, width=300, height=100)
+    info_frame = Toplevel(left_frame)
     info_frame.title("Info")
     info_text = Label(
         info_frame,
-        text=f"Min rader/kolumner - {utils.MIN_ROWS}x{utils.MIN_COLUMNS} \nMax rader/kolumner - {utils.MAX_ROWS}x{utils.MAX_COLUMNS}\nMin minor - {utils.MIN_MINES} \nMax minor - 1/4 av totala rutor",
+        text=f"Min rader/kolumner - {utils.MIN_ROWS}x{utils.MIN_COLUMNS} \nMax rader/kolumner - {utils.MAX_ROWS}x{utils.MAX_COLUMNS}\nMin minor - {utils.MIN_MINES} \nMax minor - 1/4 av totala rutor\n\nStarta spelet och klicka på en valfri ruta (vänsterklick).\nSiffrorna indikerar hur många minor som omger den aktuella rutan. Använd logiskt tänkande för att undvika minor.\nAnvänd högerklick för att markera misstänkta rutor med flaggor\nFortsätt avslöja och flagga rutor tills alla tomma rutor är avslöjade utan att stöta på en mina.\nOm du träffar på en mina, är spelet över.\nNär du framgångsrikt har avslöjat alla tomma rutor, har du vunnit spelet.",
     )
-    info_text.place(relx=0.5, rely=0.5, anchor="center")
+    info_text.pack(padx=20, pady=10)
+
+
+def update_time_label():
+    """
+    Updates the time label.
+    Args:
+        None
+    Returns:
+        None
+    """
+    print("geheh")
+    root.update()
 
 
 root = Tk()
@@ -157,7 +164,6 @@ start_button = Button(
 )
 start_button.place(relx=0.5, rely=0.85, anchor="center")
 
-
 high_scores_button = Button(
     left_frame,
     width=20,
@@ -179,3 +185,4 @@ game_frame = Frame(
 game_frame.place(x=utils.screen_width_prcnt(15), y=utils.screen_height_prcnt(15))
 
 root.mainloop()
+root.after(1000, update_time_label)
