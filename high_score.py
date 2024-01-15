@@ -1,4 +1,4 @@
-import tkinter as tk
+from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
 from tkinter import messagebox
 
 HIGH_SCORE_FILE = "highscores.txt"
@@ -93,13 +93,13 @@ def show_high_scores(root):
     sorted_scores = read_high_scores_from_file("highscores.txt")
     sort_high_scores(sorted_scores)
 
-    top = tk.Toplevel(root)
+    top = Toplevel(root)
     top.title("High Scores")
 
-    tk.Label(top, text="Topp 10").pack(padx=20, pady=10)
+    Label(top, text="Topp 10").pack(padx=20, pady=10)
 
     for i, score in enumerate(sorted_scores[:10], start=1):
-        label = tk.Label(
+        label = Label(
             top,
             text=f"{i}. Spelare: {score.name}, Storlek: {score.size[0]}x{score.size[1]}, Minor: {score.mines}, Tid: {score.time}",
         )
