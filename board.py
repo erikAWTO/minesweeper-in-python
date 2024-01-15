@@ -343,6 +343,7 @@ class Board:
                 if square.revealed:
                     total_revealed += 1
         if total_revealed == self.rows * self.cols - self.mines:  # Game won
+            self.game_won = True
             self.unbind_all_btns()
             stop_time = time.time()
             time_elapsed = int(stop_time - self.start_time)
@@ -354,18 +355,14 @@ class Board:
                 parent=self.frame,
             )
             if player_name is not None:  # If the user didn't click Cancel
-                # Create a HighScore object
                 high_score = HighScore(
                     player_name, (self.rows, self.cols), self.mines, time_elapsed
                 )
 
-                # Read existing high scores from file
                 existing_high_scores = read_high_scores_from_file(HIGH_SCORE_FILE)
 
-                # Append the new high score
                 existing_high_scores.append(high_score)
 
-                # Sort high scores and write them back to the file
                 sort_high_scores(existing_high_scores)
 
                 write_high_scores_to_file(HIGH_SCORE_FILE, existing_high_scores)

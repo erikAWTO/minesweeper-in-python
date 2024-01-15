@@ -62,7 +62,12 @@ def update_time_label():
     """
     root.after(1000, update_time_label)
 
-    if current_game is None or current_game.game_over or current_game.first_click:
+    if (
+        current_game is None
+        or current_game.game_over
+        or current_game.game_won
+        or current_game.first_click
+    ):
         return
 
     current_time = int(time.time() - current_game.start_time)
