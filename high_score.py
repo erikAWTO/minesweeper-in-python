@@ -1,5 +1,4 @@
 from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
-from tkinter import messagebox
 
 HIGH_SCORE_FILE = "highscores.txt"
 
