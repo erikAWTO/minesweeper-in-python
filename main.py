@@ -1,4 +1,4 @@
-import time  # Built-in module: https://docs.python.org/3/library/time.html
+import time  # Python Standard Library: https://docs.python.org/3/library/time.html
 
 from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
 from tkinter import (
