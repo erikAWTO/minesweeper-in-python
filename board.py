@@ -39,7 +39,7 @@ class Board:
         in_bounds(self, x, y): Checks if the given coordinates are within the bounds of the game grid.
         count_adjacent_mines(self, row, col): Calculates the number of adjacent mines to a given cell.
         set_adjacent_mines(self): Sets the number of adjacent mines for each square on the game board.
-        unbind_all_btns(self): Unbinds the left and right mouse button events for all squares in the grid.
+        unbind_all_buttons(self): Unbinds the left and right mouse button events for all squares in the grid.
         flood_fill(self, row, col): Performs flood fill algorithm to reveal adjacent squares with no adjacent mines.
 
     Returns:
@@ -62,7 +62,11 @@ class Board:
             cols (int): The number of columns in the board.
             mines (int): The number of mines in the board.
             flags (int): The number of flags placed on the board.
+            start_time (float): The time when the game started.
+            game_over (bool): Flag to indicate if the game is over.
+            game_won (bool): Flag to indicate if the game is won.
             grid (list): A 2D list representing the board grid.
+
             first_click (bool): Flag to indicate if the first click has been made.
             first_click_adjacents (list): List of adjacent squares to the first click.
 
@@ -299,7 +303,7 @@ class Board:
                         if self.grid[adjacent_row][adjacent_col].adjacent_mines == 0:
                             self.flood_fill(adjacent_row, adjacent_col)
 
-    def unbind_all_btns(self):
+    def unbind_all_buttons(self):
         """
         Unbinds the left and right mouse button events for all squares in the grid.
 
@@ -322,7 +326,7 @@ class Board:
         Returns:
             None
         """
-        self.unbind_all_btns()
+        self.unbind_all_buttons()
         messagebox.showinfo("Game over", "Game over")
 
     def check_game_won(self):
@@ -344,7 +348,7 @@ class Board:
                     total_revealed += 1
         if total_revealed == self.rows * self.cols - self.mines:  # Game won
             self.game_won = True
-            self.unbind_all_btns()
+            self.unbind_all_buttons()
             stop_time = time.time()
             time_elapsed = int(stop_time - self.start_time)
 
