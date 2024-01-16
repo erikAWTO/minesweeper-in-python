@@ -317,6 +317,19 @@ class Board:
                 square.btn_object.unbind("<Button-1>")
                 square.btn_object.unbind("<Button-3>")
 
+    def destroy_all_buttons(self):
+        """
+        Destroys all the buttons in the grid.
+
+        Args:
+            None
+        Returns:
+            None
+        """
+        for all in self.grid:
+            for square in all:
+                square.btn_object.destroy()
+
     def display_game_over(self):
         """
         Unbinds the left and right mouse button events for all squares in the grid and displays a game over message box.
@@ -328,6 +341,7 @@ class Board:
         """
         self.unbind_all_buttons()
         messagebox.showinfo("Game over", "Game over")
+        self.destroy_all_buttons()
 
     def check_game_won(self):
         """

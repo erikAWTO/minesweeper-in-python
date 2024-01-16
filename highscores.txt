@@ -1,8 +1,10 @@
+eruik,16x16,10,10
 erik,16x16,10,15
 erik,16x16,2,0
 erik,8x8,10,36
 erik,8x8,10,44
 erik,8x8,10,55
 erik,8x8,9,55
+erik55,8x8,6,8
 erik,8x8,4,6
 erik,8x8,2,1

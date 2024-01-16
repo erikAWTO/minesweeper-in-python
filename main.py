@@ -22,6 +22,10 @@ def start_new_game():
     """
     global current_game
 
+    # Destroy all buttons in the old game
+    if current_game is not None:
+        current_game.destroy_all_buttons()
+
     # Retrieve values from Spinboxes
     rows = int(rows_spinbox.get())
     cols = int(cols_spinbox.get())
@@ -192,7 +196,12 @@ high_scores_button = Button(
 )
 high_scores_button.place(relx=0.5, rely=0.9, anchor="center")
 
-info_button = Button(left_frame, width=20, text="Info", command=lambda: show_info())
+info_button = Button(
+    left_frame,
+    width=20,
+    text="Info",
+    command=lambda: show_info(),
+)
 info_button.place(relx=0.5, rely=0.95, anchor="center")
 
 # Game frame
