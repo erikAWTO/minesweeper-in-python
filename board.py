@@ -3,6 +3,7 @@ import time  # Python Standard Library: https://docs.python.org/3/library/time.h
 
 from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
 from tkinter import messagebox, simpledialog
+from tkmacosx import Button  # 3rd party, macos fix
 
 import utils  # Local module
 from high_score import *  # Local module

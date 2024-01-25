@@ -4,6 +4,7 @@ from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.ht
 from tkinter import (
     messagebox,
 )  # 3rd party: https://docs.python.org/3/library/tkinter.messagebox.html
+from tkmacosx import Button  # 3rd party, macos fix
 
 import utils  # Local module
 import high_score  # Local module
@@ -184,22 +185,24 @@ mines_spinbox.place(relx=0.5, rely=0.65, anchor="center")
 
 # Create buttons for starting the game, showing high scores and showing info
 start_button = Button(
-    left_frame, width=20, text="Starta", command=lambda: start_new_game()
+    left_frame, width=100, text="Starta", borderless=1, command=lambda: start_new_game()
 )
 start_button.place(relx=0.5, rely=0.85, anchor="center")
 
 high_scores_button = Button(
     left_frame,
-    width=20,
+    width=100,
     text="High scores",
+    borderless=1,
     command=lambda: high_score.show_high_scores(root),
 )
 high_scores_button.place(relx=0.5, rely=0.9, anchor="center")
 
 info_button = Button(
     left_frame,
-    width=20,
+    width=100,
     text="Info",
+    borderless=1,
     command=lambda: show_info(),
 )
 info_button.place(relx=0.5, rely=0.95, anchor="center")

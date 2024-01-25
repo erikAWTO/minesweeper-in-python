@@ -1,4 +1,5 @@
 from tkinter import *  # 3rd party: https://docs.python.org/3/library/tkinter.html
+from tkmacosx import Button  # 3rd party, macos fix
 
 import utils  # Local module
 
@@ -41,9 +42,7 @@ class Square:
         """
         btn = Button(
             parent,
-            width=3,
-            height=1,
-            borderwidth=1,
+            borderless=1,
             fg="white",
             bg=utils.GREY2,
             font="Helvetica 12 bold",
